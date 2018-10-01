@@ -7,7 +7,6 @@ package gps;
  */
 
 /**
- *
  * @author bramh_000
  */
   
