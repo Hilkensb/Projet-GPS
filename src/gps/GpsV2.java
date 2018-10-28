@@ -39,8 +39,9 @@ public class GpsV2
     
     public static void main(String[] args) throws Exception
     {
-        String inputFile = "resources/products.xml";
-
+        //String inputFile = "resources/products.xml";
+        String inputFile ="C:\\Users\\bramh_000\\Bureau\\test\\Piste_2018-04-14 094348.gpx";
+        
         File xmlFile = new File(inputFile);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -68,8 +69,9 @@ public class GpsV2
 
         for (String supplier : suppliers)
         {
-            String xpathQuery = "/products/product[supplier='" + supplier + "']";
-
+            //String xpathQuery = "/products/product[supplier='" + supplier + "']";
+            String xpathQuery = "/gpx/trk/trkseg[supplier='" + supplier + "']";
+            
             xpath = xfactory.newXPath();
             XPathExpression query = xpath.compile(xpathQuery);
             NodeList productNodesFiltered = (NodeList) query.evaluate(doc, XPathConstants.NODESET);
@@ -81,7 +83,8 @@ public class GpsV2
             Document suppXml = dBuilder.newDocument();
 
             //we have to recreate the root node <products>
-            Element root = suppXml.createElement("products"); 
+            //Element root = suppXml.createElement("products"); 
+            Element root = suppXml.createElement("trkseg");
             suppXml.appendChild(root);
             for (int i=0; i<productNodesFiltered.getLength(); ++i)
             {
@@ -99,7 +102,7 @@ public class GpsV2
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             DOMSource source = new DOMSource(suppXml);
 
-            StreamResult result =  new StreamResult(new File("resources/" + supplier.trim() + ".xml"));
+            StreamResult result =  new StreamResult(new File("C:\\Users\\bramh_000\\Bureau\\test\\" + supplier.trim() + ".gpx"));
             transformer.transform(source, result);
 
             System.out.println("Done for " + supplier);
